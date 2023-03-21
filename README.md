@@ -1,33 +1,51 @@
-# xgs-component XGS基础组件之幂等性组件
-自主研发的幂等组件
-（一）为什么要把幂等抽象成组件
+# xgs-component  XGS基础组件之幂等性组件
+
+为什么要把幂等抽象成组件
+
     1、幂等处理逻辑与业务处理逻辑分离，职责划分清晰
+    
     2、幂等逻辑抽象成组件，复用方便
+    
     3、可以更灵活地与现有设施搭配使用
+    
+    
 （一）处理流程
+
 ![image](https://github.com/1062141499/xgs-component/blob/master/xgs-base-component/xgs-component-idempotent/xgs-component-idempotent-core/src/main/resources/images-idempotent/img.png)
 
 （二）幂等组件关键涉及的关键要素的说明
 
+![image](https://github.com/1062141499/xgs-component/blob/master/xgs-base-component/xgs-component-idempotent/xgs-component-idempotent-core/src/main/resources/images-idempotent/img_1.png)
 
 （三）幂等配置层级
+
     1、接口级配置
+    
     2、全局配置
+    
     3、默认配置
     
+ ![image](https://github.com/1062141499/xgs-component/blob/master/xgs-base-component/xgs-component-idempotent/xgs-component-idempotent-core/src/main/resources/images-idempotent/img_3.png)
     
 
 
   配置生效优先级，服务启动的时候校验：
+  
     1、如果存在接口级配置，则接口级配置生效
+    
     2、否则，如果存在全局级配置，则全局级配置生效
+    
     3、否则，如果存在默认配置，则默认配置生效
+    
     4、否则，如果不是必配项，则结束
+    
     5、否则，抛异常
+    
 
 （四）工程类之间的关系图
 
-
+ ![image](https://github.com/1062141499/xgs-component/blob/master/xgs-base-component/xgs-component-idempotent/xgs-component-idempotent-core/src/main/resources/images-idempotent/img_2.png)
+ 
 （五）幂等代码工程结构
 
       xgs-component-idempotent    幂等组件项级工程
@@ -66,42 +84,45 @@
                     <artifactId>xgs-component-idempotent-store-redis</artifactId>
                 </dependency>
 6.3、添加配置
-    idempotent:
-      common:
-        app-name: ${spring.application.name}
-        error-tip-msg: '幂等处理异常'
-        distributed-lock-ttl-secs: 3000
-      redis:
-        redisson:
-          single-server-config:
-            address: 'redis://192.168.4.110:6379'
+
+        idempotent:
+          common:
+            app-name: ${spring.application.name}
+            error-tip-msg: '幂等处理异常'
+            distributed-lock-ttl-secs: 3000
+          redis:
+            redisson:
+              single-server-config:
+                address: 'redis://192.168.4.110:6379'
             
 6.4、bean方法使用@Idempotent注解
-    @RequestMapping("/test1")
-        @Idempotent(keyGetterClass= DemoKeyGetter.class)
-        public String test1(@RequestParam("idemkey") String idemkey, @RequestParam("idemkey222") String idemkey222){
-            return idemkey;
-        }
-        
+
+        @RequestMapping("/test1")
+            @Idempotent(keyGetterClass= DemoKeyGetter.class)
+            public String test1(@RequestParam("idemkey") String idemkey, @RequestParam("idemkey222") String idemkey222){
+                return idemkey;
+            }
+
 6.5、提供IdempotentKeyGetter实现（也可以直接使用预提供的，请见附1）
-    /**
-     * 总是取第一个参数作为幂等key
-     */
-    public class DemoKeyGetter implements IdempotentKeyGetter {
-        @Override
-        public String parseRecordKey(IdempotentRequestContext requestContext) {
-            Object[] params = requestContext.getParams();
-            if(params == null){
+
+        /**
+         * 总是取第一个参数作为幂等key
+         */
+        public class DemoKeyGetter implements IdempotentKeyGetter {
+            @Override
+            public String parseRecordKey(IdempotentRequestContext requestContext) {
+                Object[] params = requestContext.getParams();
+                if(params == null){
+                    return null;
+                }
+                for (Object param : params) {
+                    if(param!=null){
+                        return param.toString();
+                    }
+                }
                 return null;
             }
-            for (Object param : params) {
-                if(param!=null){
-                    return param.toString();
-                }
-            }
-            return null;
         }
-    }
     
 （七）附录
 
@@ -159,5 +180,7 @@
       达到最大失败次后不再重试
       
 八 遇到的问题
+
     1、序列化与反序化：redisson的jackson反序列化不支持没有无参构造方法的类的问题
+    
     2、序列化与反序化：redis本身不支持long类型题
