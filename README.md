@@ -5,7 +5,7 @@
     2、幂等逻辑抽象成组件，复用方便
     3、可以更灵活地与现有设施搭配使用
 （一）处理流程
-
+![image](https://github.com/1062141499/xgs-component/blob/master/xgs-base-component/xgs-component-idempotent/xgs-component-idempotent-core/src/main/resources/images-idempotent/img.png)
 
 （二）幂等组件关键涉及的关键要素的说明
 
