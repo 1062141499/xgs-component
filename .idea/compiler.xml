@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="xgs-component-idempotent-store-jdbc" />
+        <module name="xgs-component-idempotent-context-aop" />
+        <module name="xgs-component-idempotent-store-redis" />
+        <module name="xgs-component-idempotent-core" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="componet-idempotent" target="8" />
+      <module name="xgs-common" target="8" />
+      <module name="xgs-component-swagger" target="1.8" />
+      <module name="xgs-componet-idempotent" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="xgs-component-idempotent-context-aop" options="-parameters" />
+      <module name="xgs-component-idempotent-core" options="-parameters" />
+      <module name="xgs-component-idempotent-store-jdbc" options="-parameters" />
+      <module name="xgs-component-idempotent-store-redis" options="-parameters" />
+    </option>
+  </component>
+</project>

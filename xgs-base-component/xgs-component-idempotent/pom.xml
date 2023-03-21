@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>xgs-base-component</artifactId>
+        <groupId>com.xgs</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>xgs-component-idempotent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>xgs-component-idempotent</name>
+    <description>基础组件-幂等</description>
+    <modules>
+        <!-- 幂等组件公共模块 -->
+        <module>xgs-component-idempotent-core</module>
+        <!-- 幂等上下文aop实现 -->
+        <module>xgs-component-idempotent-context-aop</module>
+        <!-- 幂等组件数据库实现 -->
+        <module>xgs-component-idempotent-store-jdbc</module>
+        <!-- 幂等组件redis实现 -->
+        <module>xgs-component-idempotent-store-redis</module>
+    </modules>
+
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+</project>
